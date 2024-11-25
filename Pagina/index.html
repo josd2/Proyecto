@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="buscador">
+    <!--<h2>buscadoor</h2>-->
+    <img src="./img/unnamed.png" alt="">
+    <input type="text" id="entrada" placeholder="Escribe algo aquí">
+    <button id="boton">buscar</button>
+    </div>
+    
+
+    <section>
+        <ul id="listaVideo"></ul>
+    </section>
+
+    <script>
+        const boton = document.getElementById("boton");
+        const entrada = document.getElementById("entrada");
+
+        boton.addEventListener("click", function() {
+            const texto = entrada.value;
+            console.log(texto);
+            let url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=30&q='+texto+'&key=AIzaSyD8bCvKSorUcfmoHfldiYFrJv9jlGlB_hs';
+        fetch(url).then((serverData)=>{
+            //console.log('fin petición',serverData);
+            return serverData.json();
+        }).then(data=>{
+            let lista = document.querySelector('#listaVideo');
+            console.log(lista);
+            data.items.forEach(video => {
+                let li = document.createElement('li');
+                li.innerHTML= `
+                    <img class="lazy-image" data-src="${video.snippet.thumbnails.medium.url}"  
+                         src="./img/image.svg"  >
+                    <h2>${video.snippet.title}</h2>
+                `
+                lista.appendChild(li);
+            });
+            laziLoadImage('.lazy-image',{threshold:0.9})
+        })
+        .catch(error=>{
+            console.log('error',error)
+        });
+        console.log("fin rutina");
+        function laziLoadImage(selector,options={threshold:0.5}){
+            const images = document.querySelectorAll(`${selector}[data-src]`);
+            const observer = new IntersectionObserver((entries,observer)=>{
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        observer.unobserve(img);console.log('ssss');
+                    }});
+            },options);
+            images.forEach(image =>{
+                observer.observe(image);
+            })            
+        }
+        document.addEventListener('DOMContentLoaded',()=>{
+            alert('inicia');            
+        });
+        });
+    </script>
+    
+</body>
+</html>
