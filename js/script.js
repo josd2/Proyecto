@@ -115,6 +115,7 @@ let cantEnemies1=0;
 let posicionEnemie=[];
 let cantEnemies2=0;
 let cantEnemies3=0;
+let puntaje=0;
 /////////colision//////////////////////////////**********/*/ */
 function colision(x,y,width,height,x2,y2,width1,height1){
     let x1 = [];
@@ -213,22 +214,27 @@ function colisenemieBala(enemie){
     //console.log(enemie.x,enemie.y, enemie.width, enemie.height, "<>", balaPlayer1.x, balaPlayer1.y, balaPlayer1.width, balaPlayer1.height,"**************12316546****adf")
     if(!colision(enemie.x,enemie.y, enemie.width, enemie.height,balaPlayer1.x, balaPlayer1.y, balaPlayer1.width, balaPlayer1.height)){
         enemie.x=1000;
+        puntaje+=100;
         return 1;
     }
     if(!colision(enemie.x,enemie.y, enemie.width, enemie.height,balaPlayer2.x, balaPlayer2.y, balaPlayer1.width, balaPlayer1.height)){
         enemie.x=1000;
+        puntaje+=100;
         return 2;
     }
     if(!colision(enemie.x,enemie.y, enemie.width, enemie.height,balaPlayer3.x, balaPlayer3.y, balaPlayer1.width, balaPlayer1.height)){
         enemie.x=1000;
+        puntaje+=100;
         return 3;
     }
     if(!colision(enemie.x,enemie.y, enemie.width, enemie.height,balaPlayer4.x, balaPlayer4.y, balaPlayer1.width, balaPlayer1.height)){
         enemie.x=1000;
+        puntaje+=100;
         return 4;
     }
     if(!colision(enemie.x,enemie.y, enemie.width, enemie.height,balaPlayer5.x, balaPlayer5.y, balaPlayer1.width, balaPlayer1.height)){
         enemie.x=1000;
+        puntaje+=100;
         return 5;
     }
     return -1;
@@ -385,6 +391,13 @@ function animate(){
     ctx.beginPath();
     ctx.rect(1,1,pintura.width-1,pintura.height-1);
     ctx.stroke();
+
+    ctx.font = '30px Arial'; 
+    ctx.fillStyle = 'white'; 
+    ctx.textAlign = 'center'; 
+    ctx.textBaseline = 'middle';
+    ctx.fillText("points:",800 , 50);
+    ctx.fillText(puntaje,900 , 50);
     requestAnimationFrame(animate)
 }      
 animate();
@@ -403,3 +416,4 @@ pintura.addEventListener("mouseup", () => {
     mouseClickeado = false;
   });
   
+
